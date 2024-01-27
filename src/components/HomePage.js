@@ -1,65 +1,206 @@
-// components/HomePage.js
-import React from 'react';
+import React, { useState } from 'react';
 
-const HomePage = () => {
+const ParallelogramShape = () => {
+  const parallelogramStyle = {
+    textAlign: 'center',
+  };
+
+  const h2Style = {
+    fontFamily: 'open sans',
+    color: '#fff',
+    position: 'relative',
+    display: 'inline-block',
+    padding: '10px 20px',
+    border: '2px solid black', // Black border for the parallelogram
+  };
+
+  const afterStyle = {
+    background: '#3498db',
+    position: 'absolute',
+    content: '',
+    width: '100%',
+    height: '100%',
+    top: 0,
+    left: 0,
+    transform: 'skew(-9deg)',
+    WebkitTransform: 'skew(-9deg)',
+    MozTransform: 'skew(-9deg)',
+    OTransform: 'skew(-9deg)',
+    zIndex: -1,
+  };
+
   return (
-    <div style={{ backgroundColor: 'black', color: 'white', padding: '20px' }}>
-      <h1>Trademarkia.ai</h1>
+    <div style={parallelogramStyle}>
+      <h2 style={h2Style}>
+        Try Trademarkia Ai
+        <span style={afterStyle}></span>
+      </h2>
+    </div>
+  );
+};
 
-      <div style={{ display: 'flex', justifyContent: 'space-around', marginTop: '20px' }}>
-        <NavItem label="Explore AI Tools" />
-        <NavItem label="Trademarkia Global" />
-        <SignupButton label="Sign up for Pro Account" />
-      </div>
+const Header = () => {
+  const [hovered, setHovered] = useState(null);
 
-      <div style={{ marginTop: '40px' }}>
-        <p>Using Artificial Intelligence</p>
-        <p>Experience The Power Of Legal Automation</p>
-        <p>The new standard for trademark protection and hassle-free trademark management</p>
-      </div>
+  const handleMouseEnter = (item) => {
+    setHovered(item);
+  };
 
-      <FeatureSection title="Trademarkia.ai" content="Data Predictions" />
-      <FeatureSection title="Try Trademarkia AI" content="Predictions" />
+  const handleMouseLeave = () => {
+    setHovered(null);
+  };
 
-      <div style={{ display: 'flex', justifyContent: 'space-around', marginTop: '40px' }}>
-        <PricingCard plan="Basic" price="$0" />
-        <PricingCard plan="Standard" price="$49/month" />
-        <PricingCard plan="Premium" price="$499/month" />
-        <PricingCard plan="Enterprise" price="$2000/month" />
+  return (
+    <div>
+      <header style={headerStyle}>
+        <div style={leftCornerStyle}>
+          <span style={trademarkStyle}>
+            <span style={{ color: 'white' }}>Trademark</span>
+            <span style={{ color: 'blue' }}>.</span>
+            <span style={{ color: '#b08859' }}>ai</span>
+          </span>
+        </div>
+        <div style={centerStyle}>
+          <NavItem
+            label="Home"
+            isHovered={hovered === 'home'}
+            onMouseEnter={() => handleMouseEnter('home')}
+            onMouseLeave={handleMouseLeave}
+          />
+          <Separator />
+          <NavItem
+            label="Explore AI Tools"
+            isHovered={hovered === 'explore'}
+            onMouseEnter={() => handleMouseEnter('explore')}
+            onMouseLeave={handleMouseLeave}
+          />
+          <Separator />
+          <NavItem
+            label="Our Brand"
+            isHovered={hovered === 'ourBrand'}
+            onMouseEnter={() => handleMouseEnter('ourBrand')}
+            onMouseLeave={handleMouseLeave}
+          />
+        </div>
+        <div style={rightCornerStyle}>
+          <button style={buttonStyle} onMouseEnter={() => handleMouseEnter('signup')} onMouseLeave={handleMouseLeave}>
+            ★ Sign up for Pro Account
+          </button>
+        </div>
+      </header>
+
+      {/* New Container for "★ Using Artificial Intelligence" */}
+      <div style={welcomeContainerStyle}>
+        <p>★ Using Artificial Intelligence</p>
+        <p style={experiencePowerStyle}>Experience The Power Of</p>
+        <p style={legalAutomationStyle}>Legal Automation</p>
+        <p style={newStandardStyle}>
+          The new standard for trademark protection and hassle-free trademark management
+        </p>
+
+        {/* Parallelogram Structure Box */}
+        <ParallelogramShape />
       </div>
     </div>
   );
 };
 
-const NavItem = ({ label }) => (
-  <div style={{ cursor: 'pointer', textAlign: 'center' }}>
-    <span style={{ color: '#FFA500', display: 'block', marginBottom: '5px' }}>{label}</span>
-  </div>
-);
+const NavItem = ({ label, isHovered, onMouseEnter, onMouseLeave }) => {
+  const itemStyle = {
+    display: 'inline-block',
+    background: isHovered ? '#b08859' : '#191919', // Light dark initially, changes to Biscuit Brown on hover
+    color: isHovered ? '#191919' : 'white', // White initially, changes to Light dark on hover
+    textDecoration: isHovered ? 'underline' : 'none',
+    cursor: 'pointer',
+    marginRight: '10px',
+    padding: '5px 10px',
+  };
 
-const SignupButton = ({ label }) => (
-  <button style={{ backgroundColor: '#FFA500', color: 'black', padding: '10px 20px', borderRadius: '5px' }}>
-    {label}
-  </button>
-);
+  const iStyle = {
+    color: isHovered && label === 'Our Brand' ? 'blue' : 'transparent',
+    fontWeight: 'bold',
+  };
 
-const FeatureSection = ({ title, content }) => (
-  <div style={{ marginTop: '40px' }}>
-    <h2>{title}</h2>
-    <p>{content}</p>
-    {/* Add more content as needed */}
-  </div>
-);
+  return (
+    <span style={itemStyle} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
+      {label === 'Our Brand' ? (
+        <>
+          <span style={iStyle}>i</span>a Global
+        </>
+      ) : (
+        label
+      )}
+    </span>
+  );
+};
 
-const PricingCard = ({ plan, price }) => (
-  <div style={{ textAlign: 'center', border: '1px solid white', padding: '20px', borderRadius: '5px' }}>
-    <h3>{plan}</h3>
-    <p>{price}</p>
-    {/* Add more details or features for each plan */}
-    <button style={{ backgroundColor: '#FFA500', color: 'black', padding: '10px 20px', borderRadius: '5px', marginTop: '10px' }}>
-      Get Started
-    </button>
-  </div>
-);
+const Separator = () => {
+  return <span style={{ color: 'white' }}>|</span>;
+};
 
-export default HomePage;
+// Styles
+const headerStyle = {
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  padding: '10px 20px',
+  backgroundColor: '#191919', // Initial light dark background
+  color: 'white',
+};
+
+const leftCornerStyle = {
+  display: 'flex',
+  alignItems: 'center',
+};
+
+const trademarkStyle = {
+  fontSize: '1.2rem',
+  fontWeight: '500',
+  marginRight: '20px',
+};
+
+const centerStyle = {
+  display: 'flex',
+  alignItems: 'center',
+};
+
+const rightCornerStyle = {
+  display: 'flex',
+  alignItems: 'center',
+};
+
+const buttonStyle = {
+  padding: '10px 20px',
+  backgroundColor: '#b08859', // Biscuit Brown for the button
+  color: 'white',
+  border: 'none',
+  cursor: 'pointer',
+};
+
+// New Container Styles
+const welcomeContainerStyle = {
+  backgroundColor: '#001F3F', // Dark blue background color
+  padding: '20px',
+  textAlign: 'center',
+  color: 'white',
+};
+
+const experiencePowerStyle = {
+  fontSize: '2rem',
+  margin: '10px 0',
+  color: 'white', // Added color for consistency
+};
+
+const legalAutomationStyle = {
+  fontSize: '2rem',
+  margin: '10px 0',
+  color: 'white', // Added color for consistency
+};
+
+const newStandardStyle = {
+  fontSize: '1.2rem',
+  margin: '10px 0',
+  color: 'white', // Added color for consistency
+};
+
+export default Header;
